@@ -1,0 +1,10 @@
+<html>
+
+ <body>
+
+ <h1>Witam serdecznie SUPER KURS!</h1>
+ <p>To jest plik testowy</p>
+
+ </body>
+
+ </html>
