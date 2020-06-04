@@ -25,6 +25,8 @@ public class CamelCaseRunner {
 
         File inputFile = new File("src\\javaPodstawy\\CamelCase\\input.txt");
         File outputFile = new File("src\\javaPodstawy\\CamelCase\\output.txt");
+        StringBuilder sbPoorCamelCase= new StringBuilder();
+        StringBuilder sbStandardCamelCase= new StringBuilder();
         PrintWriter printWriter;
 
         Scanner fileScanner;
@@ -36,13 +38,24 @@ public class CamelCaseRunner {
             System.out.println("Nie znaleziono pliku");
             return;
         }
-        System.out.println("To BeDziE pOoR cAmEl CaSe");
+       // System.out.println("To BeDziE pOoR cAmEl CaSe");
+       printToConsoleAndOutputFile("To będzie tekst z pliku : ",printWriter);
+
 
         while (fileScanner.hasNextLine()) {
-
-            printToConsoleAndOutputFile(poorCamelCase(fileScanner.nextLine()), printWriter);
+            //było  tylko dla poorCamelCase'a :
+            // printToConsoleAndOutputFile(poorCamelCase(fileScanner.nextLine()), printWriter);
+            String keeper=fileScanner.nextLine();
+            sbPoorCamelCase.append(poorCamelCase(keeper)).append("\n");
+            sbStandardCamelCase.append(standardCamelCase(keeper)).append("\n");
+            printToConsoleAndOutputFile(keeper, printWriter);
         }
 
+        printToConsoleAndOutputFile("\nTo będzie PoorCamelCase :",printWriter);
+        printToConsoleAndOutputFile(sbPoorCamelCase.toString(),printWriter);
+
+        printToConsoleAndOutputFile("To będzie StandardCamelCase :",printWriter);
+        printToConsoleAndOutputFile(sbStandardCamelCase.toString(),printWriter);
         printWriter.close();
     }
 
@@ -55,9 +68,50 @@ public class CamelCaseRunner {
         boolean changeToUpperCase = true;
         StringBuilder sb2 = new StringBuilder();
 
-        String[] letterArray = lineToChangeToPoorCamelCase.toLowerCase().split("");
+        for (char letter : lineToChangeToPoorCamelCase.toLowerCase().toCharArray()) {
+            if (letter != ' ') {
+                if (changeToUpperCase) {
+                    // mała litera - 32 w ASCII to duża litera a ->97, A->65 :D można odjac spacje
+                    // ' ' = 32 np letter -= ' '; jak char to ' ', jak stringi to " "
+                    // nanana -> NaNaNa
+                    letter -= 32;
+                    sb2.append(letter);
+                    changeToUpperCase = false;
+                } else {
+                    sb2.append(letter);
+                    changeToUpperCase = true;
+                }
+            } else {
+                sb2.append(' ');
+            }
+        }
+        return sb2.toString();
+    }
+    public static String standardCamelCase (String linetoChangeToStandardCamelCase){
+        boolean nextLetterLarge= true;
+        StringBuilder sb= new StringBuilder();
+
+        for (char literka : linetoChangeToStandardCamelCase.toLowerCase().toCharArray()){
+            //Natalia mowi Nie jest dobrze
+            if (literka == ' '){
+                nextLetterLarge=true;
+            }else {
+                if(nextLetterLarge){
+                    literka-= 32;
+                    sb.append(literka);
+                    nextLetterLarge=false;
+                }else{
+                    sb.append(literka);
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
+
 
 /*
+  String[] letterArray = lineToChangeToPoorCamelCase.toLowerCase().split("");
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < letterArray.length; i++) {
             if (letterArray[i] != " ") {
@@ -74,24 +128,3 @@ public class CamelCaseRunner {
             }
         }
 */
-        for (char letter : lineToChangeToPoorCamelCase.toLowerCase().toCharArray()) {
-            if (letter != ' ') {
-                if (changeToUpperCase) {
-                    // mała litera - 32 w ASCII to duża litera a ->97, A->65 :D można odjac spacje
-                    // ' ' = 32 np letter -= ' '; jak char to ' ', jak stringi to " "
-                    letter -= 32;
-                    sb2.append(letter);
-                    changeToUpperCase = false;
-// nanana -> NaNaNa
-                } else {
-                    sb2.append(letter);
-                    changeToUpperCase = true;
-                }
-            } else {
-                sb2.append(' ');
-
-            }
-        }
-        return sb2.toString();
-    }
-}

@@ -1,2 +1,12 @@
+To będzie tekst z pliku : 
+To bedzie fajne zdanie do zamiany
+Ale kurcze koty sa fajne
+
+To będzie PoorCamelCase :
 To BeDzIe FaJnE zDaNiE dO zAmIaNy
 AlE kUrCzE kOtY sA fAjNe
+
+To będzie StandardCamelCase :
+ToBedzieFajneZdanieDoZamiany
+AleKurczeKotySaFajne
+
